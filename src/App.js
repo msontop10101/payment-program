@@ -28,19 +28,16 @@ function App() {
   ])
 
   const totalPayments = payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
-  // const [addupPayments, setAddupPayments] = useState([2050, 300, 730]);
-  // console.log(addupPayments)
   console.log(totalPayments)
-  // const totalPayments =  addupPayments.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   useEffect(() => {
     console.log(submittedValues)
     if (submittedValues) {
       const newData = { name: submittedValues.name, payments: parseInt(submittedValues.amount, 10) }
       setPayments([...payments, newData])
-      // setAddupPayments([...addupPayments, parseInt(submittedValues.amount, 10)])
-      const totalPayments =  payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
     }
   }, [submittedValues])
+
+  const sortedByPayments = [...payments].sort((a, b) => b.payments - a.payments);
 
   return (
     <div className="App">
@@ -52,8 +49,9 @@ function App() {
             <div className='w-[45%] text-left'><h2>Nombre</h2></div>
             <div className='w-[45%] text-left'><h2>VENTAS</h2></div>
           </div>
-          {payments.map((user, index) => (
-            <div key={index} className='flex mx-3 mt-1 even:bg-slate-300 italic px-3 text-xl justify-between border rounded'>
+          {sortedByPayments.map((user, index) => (
+            <div key={index} className='flex mx-3 mt-1 even:bg-slate-300 italic px-3 text-xl justify-between border rounded items-center'>
+              <div>{index + 1}</div>
               <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
               <div className='w-[45%] text-left py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.payments}</div>
             </div>
