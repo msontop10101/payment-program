@@ -6,14 +6,14 @@ import PaymentForm from './components/Forms';
 function App() {
   const [submittedValues, setSubmittedValues] = useState()
   const [payments, setPayments] = useState([
-    { name: 'John', payments: [100] },
-    { name: 'Jane', payments: [150, 250, 350] },
-    { name: 'Bob', payments: [200, 300, 400] },
+    { name: 'Kevin Macri', payments: 2050 },
+    { name: 'Emanuel Diaz', payments: 300 },
+    { name: 'Cristian Fernandez ', payments: 730 },
   ])
   useEffect(() => {
     console.log(submittedValues)
     if (submittedValues) {
-      const newData = { name: submittedValues.name, payments: [submittedValues.amount]  }
+      const newData = { name: submittedValues.name, payments: submittedValues.amount }
       setPayments([...payments, newData])
     }
   }, [submittedValues])
@@ -21,56 +21,21 @@ function App() {
   return (
     <div className="App">
       <PaymentForm setSubmittedValues={setSubmittedValues} />
-      <div className='my-2'>
-        <h2 className='font-semibold'>Payment Database Display</h2>
-        <div className='flex mx-3 mt-4 justify-between font-semibold bg-slate-300 border rounded py-4'>
-          <div className='w-[30%]'><h2>Name</h2></div>
-          <div className='w-[30%]'><h2>Payment</h2></div>
-          <div className='w-[30%]'><h2>Date</h2></div>
-        </div>
-        {payments.map((user, index) => (
-          <div key={index} className='flex mx-3 mt-1 even:bg-slate-300 justify-between border rounded'>
-            <div className='w-[30%] '>{user.name}</div>
-            <div className='w-[30%]'>
-              <ul>
-                {user.payments.map((payment, index) => (
-                  <li key={index}>${payment}</li>
-                ))}
-              </ul>
-            </div>
-            <div className='w-[30%]'>
-              Date..
-            </div>
+      <div className='flex justify-center'>
+        <div className='my-2 w-[60%]'>
+          <h2 className='font-semibold'>Visualización de la base de datos de pagos</h2>
+          <div className='flex mx-3 mt-4 justify-between font-semibold bg-slate-300 border rounded py-4'>
+            <div className='w-[45%] text-left'><h2>Nombre</h2></div>
+            <div className='w-[45%] text-left'><h2>Pago</h2></div>
           </div>
-        ))}
+          {payments.map((user, index) => (
+            <div key={index} className='flex mx-3 mt-1 even:bg-slate-300 justify-between border rounded'>
+              <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
+              <div className='w-[45%] text-left py-2 px-1'>${user.payments}</div>
+            </div>
+          ))}
+        </div>
       </div>
-      {/* <h2>Payment Database Display</h2>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Payments</th>
-            </tr>
-          </thead>
-          <tbody>
-            {payments.map((user, index) => (
-              <tr key={index}>
-                <td>{user.name}</td>
-                <td>
-                  <ul>
-                    {user.payments.map((payment, index) => (
-                      <li key={index}>${payment}</li>
-                    ))}
-                  </ul>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-
-      </div> */}
     </div>
   );
 }
