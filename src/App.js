@@ -1,6 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import PaymentForm from './components/Forms';
+import newPaymentSound from './sound/newpayment.mp3'
 
 
 function App() {
@@ -26,24 +27,43 @@ function App() {
     { name: 'Leonel Nuñez ', payments: 330 },
     { name: 'Maximiliano Peralta ', payments: 430 },
   ])
+  const [audio] = useState(new Audio(newPaymentSound));
+  
 
   const totalPayments = payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
-  console.log(totalPayments)
   useEffect(() => {
     console.log(submittedValues)
     if (submittedValues) {
       const newData = { name: submittedValues.name, payments: parseInt(submittedValues.amount, 10) }
-      setPayments([...payments, newData])
+      const existingPayment = payments.find(payment => payment.name === newData.name);
+      if (existingPayment) {
+        // update the payments property of the existing object
+        const updatedPayments = payments.map(payment => {
+          if (payment.name === newData.name) {
+            return { ...payment, payments: payment.payments + newData.payments };
+          } else {
+            return payment;
+          }
+        });
+        setPayments(updatedPayments);
+      } else {
+        const updatedPayments = [...payments, newData];
+        setPayments(updatedPayments);
+      }
+      audio.play()
     }
   }, [submittedValues])
 
+  
+
   const sortedByPayments = [...payments].sort((a, b) => b.payments - a.payments);
+  
 
   return (
     <div className="App">
       <PaymentForm setSubmittedValues={setSubmittedValues} />
       <div className='flex justify-center'>
-        <div className='my-2 w-[60%]' style={{fontFamily:'Bebas Neue' }}>
+        <div className='my-2 w-[60%]' style={{ fontFamily: 'Bebas Neue' }}>
           <h2 className='font-normal'>Visualización de la base de datos de pagos</h2>
           <div className='flex mx-3 mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
             <div className='w-[45%] text-left'><h2>Nombre</h2></div>
