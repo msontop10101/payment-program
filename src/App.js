@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import PaymentForm from './components/Forms';
 import newPaymentSound from './sound/newpayment.mp3'
 import dollarSpin from './images/dollarspin.gif'
@@ -9,62 +9,41 @@ function App() {
   const [submittedValues, setSubmittedValues] = useState()
 
   const [payments, setPayments] = useState([
-    // { name: 'Kevin Macri', payments: 2050 },
-    // { name: 'Emanuel Diaz', payments: 300 },
-    // { name: 'Yao Cabrera', payments: 500 },
-    // { name: 'Laure y Juani ', payments: 530 },
-    // { name: 'Yamil DIB  ', payments: 600 },
-    // { name: 'Luciano Finozzi ', payments: 710 },
-    // { name: 'Martín Luna ', payments: 1050 },
-    // { name: 'Jonatan Correa ', payments: 744 },
-    // { name: 'Sol Chávez  ', payments: 730 },
-    // { name: 'Ivan Capdevilla ', payments: 987 },
-    // { name: 'Valentina Silveira ', payments: 555 },
-    // { name: 'Ezequiel Rodriguez  ', payments: 34 },
-    // { name: 'Ignacio Díaz  ', payments: 787 },
-    // { name: 'Matias Capdevila ', payments: 234 },
-    // { name: 'Ricardo Rocca ', payments: 1000 },
-    // { name: 'Agustín Rodriguez ', payments: 999 },
-    // { name: 'Leonel Nuñez ', payments: 330 },
-    // { name: 'Maximiliano Peralta ', payments: 430 },
+    { name: 'Kevin Macri', payments: 2050 },
+    { name: 'Emanuel Diaz', payments: 300 },
+    { name: 'Yao Cabrera', payments: 500 },
+    { name: 'Laure y Juani', payments: 530 },
+    { name: 'Yamil DIB', payments: 600 },
+    { name: 'Luciano Finozzi', payments: 710 },
+    { name: 'Martín Luna', payments: 1050 },
+    { name: 'Jonatan Correa', payments: 744 },
+    { name: 'Sol Chávez', payments: 730 },
+    { name: 'Ivan Capdevilla', payments: 987 },
+    { name: 'Valentina Silveira', payments: 555 },
+    { name: 'Ezequiel Rodriguez', payments: 34 },
+    { name: 'Ignacio Díaz', payments: 787 },
+    { name: 'Matias Capdevila', payments: 234 },
+    { name: 'Ricardo Rocca', payments: 1000 },
+    { name: 'Agustín Rodriguez', payments: 999 },
+    { name: 'Leonel Nuñez', payments: 330 },
+    { name: 'Maximiliano Peralta', payments: 430 },
   ])
   const [audio] = useState(new Audio(newPaymentSound));
-  const [newEntry, setNewEntry] = useState()
-  const myElementRef = useRef(null);
-
-  useEffect(() => {
-    // console.log(newEntry)
-    // console.log(payments[newEntry])
-    // const children = myElementRef.current?.children[newEntry];
-    // if (children){
-    //   children.classList('new-payment')
-    // }
-    // console.log(children)
-    const parentElement = document.getElementById('list-container')
-    if (parentElement) {
-      const childrenElements = parentElement.children;
-      if (submittedValues) {
-        const firstChildElement = childrenElements[newEntry];
-        firstChildElement.classList.add('new-payment');
-        setTimeout(() => {
-          firstChildElement.classList.remove('new-payment');
-        }, 2000);
-      }
-      console.log(newEntry)
-      
-      // if (childrenElements.length > 0 && newEntry) {
-      //   const firstChildElement = childrenElements[2];
-      //   firstChildElement.classList.add('new-payment');
-      // }
-    }
-  }, [newEntry])
-
+  const sortedByPayments = [...payments].sort((a, b) => b.payments - a.payments);
 
   const totalPayments = payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
   useEffect(() => {
-    console.log(submittedValues)
     if (submittedValues) {
+      console.log('submitted')
       const newData = { name: submittedValues.name, payments: parseInt(submittedValues.amount, 10) }
+      // const submittedValue = { name: 'Ignacio Díaz', payments: 600 }
+      // for (let i = 0; i < sortedByPayments.length; i++) {
+      //   if (submittedValue.name === sortedByPayments[i].name) {
+      //     console.log(`Match found at index ${i} and it EXISTS`);
+      //   }else{
+      //     console.log('nothing found')
+      //   }
+      // }
       const existingPayment = payments.find(payment => payment.name === newData.name);
       if (existingPayment) {
         // update the payments property of the existing object
@@ -79,21 +58,18 @@ function App() {
       } else {
         const updatedPayments = [...payments, newData];
         setPayments(updatedPayments);
-        const index = updatedPayments.length - 1;
-        console.log(`Index of new payment: ${index}`);
-
-        const sortedUpdatedPayments = [...updatedPayments].sort((a, b) => b.payments - a.payments);
-        const sortedIndex = sortedUpdatedPayments.indexOf(newData);
-        console.log(`Index of new payment after sorting: ${sortedIndex}`);
-        setNewEntry(sortedIndex)
       }
-      audio.play()
+
+
+      audio.play();
     }
-  }, [submittedValues])
+  }, [submittedValues]);
 
 
 
-  const sortedByPayments = [...payments].sort((a, b) => b.payments - a.payments);
+
+
+  
 
 
   return (
@@ -111,9 +87,9 @@ function App() {
             <div className='w-[45%] text-left'><h2>Nombre</h2></div>
             <div className='w-[45%] text-left'><h2>VENTAS</h2></div>
           </div>
-          <div id='list-container' ref={myElementRef}>
+          <div id='list-container'>
             {sortedByPayments.map((user, index) => (
-              <div key={index} className='flex mx-3 mt-1 bg-slate-50 opacity-75  italic px-3 text-2xl justify-between border rounded items-center'>
+              <div key={index} className='flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center'>
                 <div>{index + 1}</div>
                 <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
                 <div className='w-[45%] text-left py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.payments}</div>
