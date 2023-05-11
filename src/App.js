@@ -29,6 +29,12 @@ function App() {
     { name: 'Maximiliano Peralta ', payments: 430 },
   ])
   const [audio] = useState(new Audio(newPaymentSound));
+  const [newEntry, setNewEntry] = useState()
+  useEffect(() => {
+    console.log(newEntry)
+    console.log(payments[newEntry])
+  }, [newEntry])
+  
 
   const totalPayments = payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
   useEffect(() => {
@@ -55,6 +61,7 @@ function App() {
         const sortedUpdatedPayments = [...updatedPayments].sort((a, b) => b.payments - a.payments);
         const sortedIndex = sortedUpdatedPayments.indexOf(newData);
         console.log(`Index of new payment after sorting: ${sortedIndex}`);
+        setNewEntry(index)
       }
       audio.play()
     }
@@ -81,7 +88,7 @@ function App() {
             <div className='w-[45%] text-left'><h2>VENTAS</h2></div>
           </div>
           {sortedByPayments.map((user, index) => (
-            <div key={index} className='flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2fxl justify-between border rounded items-center'>
+            <div key={index} className='flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center'>
               <div>{index + 1}</div>
               <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
               <div className='w-[45%] text-left py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.payments}</div>

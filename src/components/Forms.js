@@ -16,9 +16,6 @@ const PaymentForm = ({setSubmittedValues}) => (
                 return errors;
             }}
             onSubmit={(values, {resetForm}) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                }, 400);
                 resetForm()
                 setSubmittedValues(values)
             }}
