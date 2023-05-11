@@ -49,6 +49,12 @@ function App() {
       } else {
         const updatedPayments = [...payments, newData];
         setPayments(updatedPayments);
+        const index = updatedPayments.length - 1;
+        console.log(`Index of new payment: ${index}`);
+
+        const sortedUpdatedPayments = [...updatedPayments].sort((a, b) => b.payments - a.payments);
+        const sortedIndex = sortedUpdatedPayments.indexOf(newData);
+        console.log(`Index of new payment after sorting: ${sortedIndex}`);
       }
       audio.play()
     }
@@ -63,7 +69,7 @@ function App() {
     <div className="App">
       <PaymentForm setSubmittedValues={setSubmittedValues} />
       <div className='flex justify-center'>
-        <div className='flex w-[20%] flex-col'>
+        <div className='flex w-[20%] flex-col' style={{alignItems:'center'}}>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
@@ -86,7 +92,7 @@ function App() {
             <div className='w-[45%] text-left'><h2><span className='text-[green] text-2xl'>$</span> {totalPayments}</h2></div>
           </div>
         </div>
-        <div className='flex w-[20%] flex-col'>
+        <div className='flex w-[20%] flex-col' style={{alignItems:'center'}}>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
