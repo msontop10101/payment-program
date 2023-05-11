@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PaymentForm from './components/Forms';
 import newPaymentSound from './sound/newpayment.mp3'
 import dollarSpin from './images/dollarspin.gif'
@@ -30,11 +30,35 @@ function App() {
   ])
   const [audio] = useState(new Audio(newPaymentSound));
   const [newEntry, setNewEntry] = useState()
+  const myElementRef = useRef(null);
+
   useEffect(() => {
-    console.log(newEntry)
-    console.log(payments[newEntry])
+    // console.log(newEntry)
+    // console.log(payments[newEntry])
+    // const children = myElementRef.current?.children[newEntry];
+    // if (children){
+    //   children.classList('new-payment')
+    // }
+    // console.log(children)
+    const parentElement = document.getElementById('list-container')
+    if (parentElement) {
+      const childrenElements = parentElement.children;
+      if (submittedValues) {
+        const firstChildElement = childrenElements[newEntry];
+        firstChildElement.classList.add('new-payment');
+        setTimeout(() => {
+          firstChildElement.classList.remove('new-payment');
+        }, 2000);
+      }
+      console.log(newEntry)
+      
+      // if (childrenElements.length > 0 && newEntry) {
+      //   const firstChildElement = childrenElements[2];
+      //   firstChildElement.classList.add('new-payment');
+      // }
+    }
   }, [newEntry])
-  
+
 
   const totalPayments = payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
   useEffect(() => {
@@ -61,7 +85,7 @@ function App() {
         const sortedUpdatedPayments = [...updatedPayments].sort((a, b) => b.payments - a.payments);
         const sortedIndex = sortedUpdatedPayments.indexOf(newData);
         console.log(`Index of new payment after sorting: ${sortedIndex}`);
-        setNewEntry(index)
+        setNewEntry(sortedIndex)
       }
       audio.play()
     }
@@ -76,7 +100,7 @@ function App() {
     <div className="App">
       <PaymentForm setSubmittedValues={setSubmittedValues} />
       <div className='flex justify-center'>
-        <div className='flex w-[20%] flex-col' style={{alignItems:'center'}}>
+        <div className='flex w-[20%] flex-col' style={{ alignItems: 'center' }}>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
@@ -87,19 +111,21 @@ function App() {
             <div className='w-[45%] text-left'><h2>Nombre</h2></div>
             <div className='w-[45%] text-left'><h2>VENTAS</h2></div>
           </div>
-          {sortedByPayments.map((user, index) => (
-            <div key={index} className='flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center'>
-              <div>{index + 1}</div>
-              <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
-              <div className='w-[45%] text-left py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.payments}</div>
-            </div>
-          ))}
+          <div id='list-container' ref={myElementRef}>
+            {sortedByPayments.map((user, index) => (
+              <div key={index} className='flex mx-3 mt-1 bg-slate-50 opacity-75  italic px-3 text-2xl justify-between border rounded items-center'>
+                <div>{index + 1}</div>
+                <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
+                <div className='w-[45%] text-left py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.payments}</div>
+              </div>
+            ))}
+          </div>
           <div className='flex mx-3 mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
             <div className='w-[45%] text-left'><h2>TOTAL</h2></div>
             <div className='w-[45%] text-left'><h2><span className='text-[green] text-2xl'>$</span> {totalPayments}</h2></div>
           </div>
         </div>
-        <div className='flex w-[20%] flex-col' style={{alignItems:'center'}}>
+        <div className='flex w-[20%] flex-col' style={{ alignItems: 'center' }}>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
           <div><img src={dollarSpin} alt="My GIF" /></div>
