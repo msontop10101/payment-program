@@ -40,5 +40,5 @@
   background-image: url('./images/Trialbg.jpg');
 }
 .new-payment {
-  background-color: yellow;
+  background-color: yellow !important;
 }
