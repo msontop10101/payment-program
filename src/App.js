@@ -2,7 +2,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import PaymentForm from './components/Forms';
 import newPaymentSound from './sound/newpayment.mp3'
-import dollarSpin from './images/dollarspin.gif'
+import moneySound from './sound/moneysound.mp3'
 
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
     { name: 'Leonel Nuñez', payments: 330 },
     { name: 'Maximiliano Peralta', payments: 430 },
   ])
-  const [audio] = useState(new Audio(newPaymentSound));
+  const [audio] = useState(new Audio(moneySound));
   const sortedByPayments = [...payments].sort((a, b) => b.payments - a.payments);
 
   const totalPayments = payments.reduce((accumulator, payment) => accumulator + payment.payments, 0);
@@ -36,14 +36,6 @@ function App() {
     if (submittedValues) {
       console.log('submitted')
       const newData = { name: submittedValues.name, payments: parseInt(submittedValues.amount, 10) }
-      // const submittedValue = { name: 'Ignacio Díaz', payments: 600 }
-      // for (let i = 0; i < sortedByPayments.length; i++) {
-      //   if (submittedValue.name === sortedByPayments[i].name) {
-      //     console.log(`Match found at index ${i} and it EXISTS`);
-      //   }else{
-      //     console.log('nothing found')
-      //   }
-      // }
       const existingPayment = payments.find(payment => payment.name === newData.name);
       if (existingPayment) {
         // update the payments property of the existing object
@@ -76,11 +68,7 @@ function App() {
     <div className="App">
       <PaymentForm setSubmittedValues={setSubmittedValues} />
       <div className='flex justify-center'>
-        <div className='flex w-[20%] flex-col' style={{ alignItems: 'center' }}>
-          <div><img src={dollarSpin} alt="My GIF" /></div>
-          <div><img src={dollarSpin} alt="My GIF" /></div>
-          <div><img src={dollarSpin} alt="My GIF" /></div>
-        </div>
+        
         <div className='my-2 w-[60%] background-image' style={{ fontFamily: 'Bebas Neue' }}>
           <h2 className='font-normal'>Visualización de la base de datos de pagos</h2>
           <div className='flex mx-3 mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
@@ -101,11 +89,7 @@ function App() {
             <div className='w-[45%] text-left'><h2><span className='text-[green] text-2xl'>$</span> {totalPayments}</h2></div>
           </div>
         </div>
-        <div className='flex w-[20%] flex-col' style={{ alignItems: 'center' }}>
-          <div><img src={dollarSpin} alt="My GIF" /></div>
-          <div><img src={dollarSpin} alt="My GIF" /></div>
-          <div><img src={dollarSpin} alt="My GIF" /></div>
-        </div>
+        
       </div>
     </div>
   );
