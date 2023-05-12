@@ -2,6 +2,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import PaymentForm from './components/Forms';
 import moneySound from './sound/moneysound.mp3'
+import cheer from './sound/cheer.mp3'
 
 
 function App() {
@@ -28,8 +29,9 @@ function App() {
     { name: 'Maximiliano Peralta', payments: 430 },
   ])
   const [audio] = useState(new Audio(moneySound));
+  const [cheerAudio] = useState(new Audio(cheer))
   const [newPaymentIndex, setNewPaymentIndex] = useState(null)
-  console.log('payment index: ', newPaymentIndex)
+
 
 
   useEffect(() => {
@@ -47,7 +49,7 @@ function App() {
     }
   }, [newPaymentIndex]);
 
-  
+
 
   const sortedByPayments = [...payments].sort((a, b) => b.payments - a.payments);
 
@@ -81,14 +83,11 @@ function App() {
       }
 
       audio.play();
+      cheerAudio.volume = 0.5
+      // cheerAudio.currentTime = 3
+      cheerAudio.play()
     }
   }, [submittedValues]);
-
-
-
-
-
-
 
 
   return (
@@ -104,8 +103,8 @@ function App() {
           </div>
           <div id='list-container'>
             {sortedByPayments.map((user, index) => (
-              
-              <div key={index}  className={`flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
+
+              <div key={index} className={`flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
                 <div>{index + 1}</div>
                 <div className='w-[45%] text-left py-2 px-1'>{user.name}</div>
                 <div className='w-[45%] text-left py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.payments}</div>
