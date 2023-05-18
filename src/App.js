@@ -1,25 +1,18 @@
-import './App.css';
-import Home from './components/Home';
-import PaymentForm from './components/Forms';
+import React from 'react';
 import { Routes, Route } from "react-router-dom"
-import React, { useState, useEffect } from 'react';
+import PaymentForm from './components/Forms';
+import Home from './components/Home';
 
+import { save as saveData} from './utils/store';
+import './App.css';
 
 function App() {
-  const [submittedData, setSubmittedData] = useState({})
-
-  const handleFormSubmit = (data) => {
-    console.log('Data', data);
-    setSubmittedData(data);
-
-  };
-  console.log(`Submitted DATA: ${submittedData}`)
 
   return (
     <div className="App">
         <Routes>
-          <Route path="/" element={<Home submittedData={submittedData}/>} />
-          <Route path='/admin' element={<PaymentForm onSubmit={handleFormSubmit}/>} />
+          <Route path="/" element={<Home />} />
+        <Route path='/admin' element={<PaymentForm onSubmit={(data) => saveData(data)}/>} />
         </Routes>
     </div>
   );
