@@ -3,9 +3,16 @@
 const JSONtoString = (obj) => JSON.stringify(obj);  // returns a string
 const StringtoJSON = (str) => JSON.parse(str);  // returns an object
 
-const strorageKey = 'xcxv::'
+const strorageKey = 'xcxviDv::'
 
-function save(data) {
+function slugify(text) {
+    // Slugify a text by
+    // -> converting to lowercase
+    // -> replacing all spaces with underscore
+    return text.toLowerCase().replaceAll(' ', '_')
+}
+
+function save({name, amount}) {
 
     // Read all the data in localstorage
     let existingData = localStorage.getItem(strorageKey);
@@ -19,12 +26,17 @@ function save(data) {
         existingData = []
     }
 
+    const payId = slugify(name);
+
     // Save to localstorage
-    const newDbData = JSONtoString([...existingData, data]);
+    const newDbData = JSONtoString({
+        ...existingData,
+        [payId]: { name, amount, ...existingData[payId]}
+    });
 
     localStorage.setItem(strorageKey, newDbData);
 
-    return newDbData;
+    return Object.values(newDbData); // an array
 
 }
 
@@ -34,6 +46,7 @@ function load(){
     if (existingData !== null) { // if there is an existing data
         // convert existing data from string to an object
         existingData = StringtoJSON(existingData);
+        existingData = Object.values(existingData); // array
     } else {
         existingData = []
     }
