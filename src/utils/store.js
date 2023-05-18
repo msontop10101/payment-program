@@ -38,7 +38,7 @@ function save({name, amount}) {
     // Save to localstorage
     const newDbData = JSONtoString({
         ...existingData,
-        [payId]: { ...existingData[payId], amount: newAmount}
+        [payId]: { ...existingData[payId], name, amount: newAmount}
     });
 
     localStorage.setItem(strorageKey, newDbData);
