@@ -27,11 +27,18 @@ function save({name, amount}) {
     }
 
     const payId = slugify(name);
+    let newAmount = Number(amount);
+
+    // If user has paid before
+    if (existingData[payId]?.amount) {
+        // Add the new amount to the existing amount
+        newAmount += Number(existingData[payId].amount)
+    }
 
     // Save to localstorage
     const newDbData = JSONtoString({
         ...existingData,
-        [payId]: { name, amount, ...existingData[payId]}
+        [payId]: { ...existingData[payId], amount: newAmount}
     });
 
     localStorage.setItem(strorageKey, newDbData);
