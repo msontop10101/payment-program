@@ -11,18 +11,17 @@ function Home() {
     const [payments, setPayments] = useState(()=>loadData());
     const newPaymentIndex = null;
 
-
     useEffect(() => {
 
         window.addEventListener('storage', () => {
             setPayments(()=>loadData());
         })
 
-
       return () => {
           window.removeEventListener('storage', ()=>{console.log("Stoped!")});
       };
     }, [])
+
 
     // Sort by amount
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
