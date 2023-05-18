@@ -1,5 +1,5 @@
 import '../App.css';
-// import { useState } from 'react';
+import { useEffect } from 'react';
 // import moneySound from '../sound/moneysound.mp3'
 // import cheer from '../sound/cheer.mp3'
 import { load as loadData } from '../utils/store';
@@ -9,7 +9,20 @@ function Home() {
     // const [audio] = useState(new Audio(moneySound));
     // const [cheerAudio] = useState(new Audio(cheer))
     const payments = loadData();
-    const newPaymentIndex = null
+    const newPaymentIndex = null;
+
+
+    useEffect(() => {
+
+        window.addEventListener('storage', () => {
+            console.log("Local storage updated!")
+        })
+
+
+      return () => {
+          window.removeEventListener('storage', ()=>{console.log("Stoped!")});
+      };
+    }, [])
 
     // Sort by amount
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
