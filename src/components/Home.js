@@ -1,41 +1,13 @@
 import '../App.css';
-// import { useState, useEffect } from 'react';
+// import { useState } from 'react';
 // import moneySound from '../sound/moneysound.mp3'
 // import cheer from '../sound/cheer.mp3'
 import { load as loadData } from '../utils/store';
 
 
-
-// const defaultPayments = [
-//     { name: 'Kevin Macri', payments: 2050 },
-//     { name: 'Emanuel Diaz', payments: 300 },
-//     { name: 'Yao Cabrera', payments: 500 },
-//     { name: 'Laure y Juani', payments: 530 },
-//     { name: 'Yamil DIB', payments: 600 },
-//     { name: 'Luciano Finozzi', payments: 710 },
-//     { name: 'Martín Luna', payments: 1050 },
-//     { name: 'Jonatan Correa', payments: 744 },
-//     { name: 'Sol Chávez', payments: 730 },
-//     { name: 'Ivan Capdevilla', payments: 987 },
-//     { name: 'Valentina Silveira', payments: 555 },
-//     { name: 'Ezequiel Rodriguez', payments: 34 },
-//     { name: 'Ignacio Díaz', payments: 787 },
-//     { name: 'Matias Capdevila', payments: 234 },
-//     { name: 'Ricardo Rocca', payments: 1000 },
-//     { name: 'Agustín Rodriguez', payments: 999 },
-//     { name: 'Leonel Nuñez', payments: 330 },
-//     { name: 'Maximiliano Peralta', payments: 430 },
-// ]
-
-
-
 function Home() {
-    // const [submittedValues, setSubmittedValues] = useState({})    
-
-    // const [payments, setPayments] = useState(defaultPayments);
     // const [audio] = useState(new Audio(moneySound));
     // const [cheerAudio] = useState(new Audio(cheer))
-    // const [newPaymentIndex, setNewPaymentIndex] = useState(null)
     const payments = loadData();
     const newPaymentIndex = null
 
@@ -44,9 +16,6 @@ function Home() {
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
     // Calculate total
     const totalPayments = payments.reduce((accumulator, payment) => accumulator + Number(payment.amount), 0);
-
-    console.log(totalPayments)
-
 
     return (
         <div className="App">
