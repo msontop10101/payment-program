@@ -7,29 +7,14 @@ import cheer from '../sound/cheer.mp3'
 
 
 
-function Home({ submittedValues }) {
-    
+function Home({ submittedData }) {
+    const [submittedValues, setSubmittedValues] = useState({})
+
     useEffect(() => {
-      if(submittedValues != null){
-        console.log('name:',submittedValues.name)
-      }
-    }, [submittedValues])
-    
-    // console.log(`Payment Data: ${paymentData.name}`)
-;
-    // const [submittedValues, setSubmittedValues] = useState({})
-    
-    // useEffect(() => {
-    //     if(paymentData){
-    //         const newData = {
-    //             ...paymentData,
-    //             name: paymentData.name,
-    //             payment: paymentData.amount,
-    //           };
-    //           setSubmittedValues(newData);
-    //         console.log(`HOME: ${submittedValues.name}-${submittedValues.payment}`)
-    //     }
-    // }, [paymentData])
+        if (submittedData){
+            console.log(submittedData)
+        }
+    }, [submittedData])
     
 
 
@@ -66,7 +51,7 @@ function Home({ submittedValues }) {
             children.classList.add('new-payment')
             const timer = setTimeout(() => {
                 setNewPaymentIndex(null);
-            }, 3000); // Adjust the duration (in milliseconds) as per your requirement
+            }, 3000); 
 
             return () => {
                 clearTimeout(timer);
@@ -85,7 +70,6 @@ function Home({ submittedValues }) {
             const newData = { name: submittedValues.name, payments: parseInt(submittedValues.amount, 10) }
             const existingPayment = payments.find(payment => payment.name === newData.name);
             if (existingPayment) {
-                // update the payments property of the existing object
                 const updatedPayments = sortedByPayments.map(payment => {
                     if (payment.name === newData.name) {
                         return { ...payment, payments: payment.payments + newData.payments };
@@ -117,7 +101,7 @@ function Home({ submittedValues }) {
 
     return (
         <div className="App">
-            {/* <PaymentForm setSubmittedValues={setSubmittedValues} /> */}
+            {/* <PaymentForm setSubmittedValues={setSubmittedValues} /> */} 
             <div className='flex justify-center'>
 
                 <div className='my-2 w-[60%] background-image' style={{ fontFamily: 'Poppins' }}>

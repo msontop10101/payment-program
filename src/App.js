@@ -6,34 +6,19 @@ import React, { useState, useEffect } from 'react';
 
 
 function App() {
-  const [submittedData, setSubmittedData] = useState()
-  const [paymentData, setPaymentData] = useState({})
+  const [submittedData, setSubmittedData] = useState({})
 
   const handleFormSubmit = (data) => {
-    console.log('Data',data)
+    console.log('Data', data);
     setSubmittedData(data);
+
   };
-  console.log('submitted:',submittedData)
-
-  useEffect(() => {
-    if (submittedData) {
-      // Update paymentData with the new object
-      const newData = {
-        ...paymentData,
-        name: submittedData.name,
-        amount: submittedData.amount,
-      };
-      setPaymentData(newData);
-    }
-  }, [submittedData]);
-
-  console.log(submittedData)
-
+  console.log(`Submitted DATA: ${submittedData}`)
 
   return (
     <div className="App">
         <Routes>
-          <Route path="/" element={<Home submittedValues={submittedData}/>} />
+          <Route path="/" element={<Home submittedData={submittedData}/>} />
           <Route path='/admin' element={<PaymentForm onSubmit={handleFormSubmit}/>} />
         </Routes>
     </div>
