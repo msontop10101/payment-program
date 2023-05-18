@@ -1,22 +1,23 @@
 import '../App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import moneySound from '../sound/moneysound.mp3'
 import cheer from '../sound/cheer.mp3'
 
 
 
 
+function Home({submittedData}) {
 
-function Home({ submittedData }) {
+
     const [submittedValues, setSubmittedValues] = useState({})
 
     useEffect(() => {
         if (submittedData){
-            console.log(submittedData)
+            console.log(`submittedData from Home: ${submittedData}`)
         }
     }, [submittedData])
     
-
+    const existingData = localStorage.getItem('paymentData');
 
     const [payments, setPayments] = useState([
         { name: 'Kevin Macri', payments: 2050 },
@@ -41,6 +42,10 @@ function Home({ submittedData }) {
     // const [audio] = useState(new Audio(moneySound));
     // const [cheerAudio] = useState(new Audio(cheer))
     const [newPaymentIndex, setNewPaymentIndex] = useState(null)
+    
+    
+    
+    
 
 
 
@@ -101,6 +106,7 @@ function Home({ submittedData }) {
 
     return (
         <div className="App">
+            {submittedData ? {submittedData} : 'Nothing here'}
             {/* <PaymentForm setSubmittedValues={setSubmittedValues} /> */} 
             <div className='flex justify-center'>
 
