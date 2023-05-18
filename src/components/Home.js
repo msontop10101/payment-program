@@ -1,5 +1,5 @@
 import '../App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import moneySound from '../sound/moneysound.mp3'
 // import cheer from '../sound/cheer.mp3'
 import { load as loadData } from '../utils/store';
@@ -8,14 +8,14 @@ import { load as loadData } from '../utils/store';
 function Home() {
     // const [audio] = useState(new Audio(moneySound));
     // const [cheerAudio] = useState(new Audio(cheer))
-    const payments = loadData();
+    const [payments, setPayments] = useState(()=>loadData());
     const newPaymentIndex = null;
 
 
     useEffect(() => {
 
         window.addEventListener('storage', () => {
-            console.log("Local storage updated!")
+            setPayments(()=>loadData());
         })
 
 
