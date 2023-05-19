@@ -8,20 +8,37 @@ import { load as loadData } from '../utils/store';
 function Home() {
     // const [audio] = useState(new Audio(moneySound));
     // const [cheerAudio] = useState(new Audio(cheer))
-    const [payments, setPayments] = useState(()=>loadData());
+    const [payments, setPayments] = useState(() => loadData());
     const newPaymentIndex = null;
 
     useEffect(() => {
+        
+        // function listenToUpdate() {
+        //     console.log("Listening...")
+            
+        //     const data = loadData();
+        //     console.log(data);
+        //     setPayments(()=> data);
+        // }
 
-        window.addEventListener('storage', () => {
-            setPayments(()=>loadData());
-        })
+        // window.addEventListener('storage', listenToUpdate, false)
+
+        const intervalId = setInterval(()=>{
+            const data = loadData();
+            // console.log("Loaded:", data);
+
+            setPayments(()=>data);
+        }, 1500)
 
       return () => {
-          window.removeEventListener('storage', ()=>{console.log("Stoped!")});
+        //   window.removeEventListener('storage', ()=>{console.log("Stoped!")}, false);
+        clearInterval(intervalId);
       };
     }, [])
 
+    useEffect(()=>{
+        console.log("Updated!");
+    },[payments])
 
     // Sort by amount
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));

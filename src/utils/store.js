@@ -1,9 +1,44 @@
-// Store Data to localstorage
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// import { getDatabase, ref, set, push } from "firebase/database";
+import { getFirestore, addDoc, doc, setDoc, collection} from "firebase/firestore";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+
+// Store Data to localstorage
 const JSONtoString = (obj) => JSON.stringify(obj);  // returns a string
 const StringtoJSON = (str) => JSON.parse(str);  // returns an object
 
 const strorageKey = 'xcxviDv::'
+// Environment variable
+const env = process.env;
+const apiKey = env.REACT_APP_API_KEY;
+const appId = env.REACT_APP_APP_ID;
+const collectionName = env.REACT_APP_COLLECTION_NAME;
+
+// Firebase config
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: apiKey,
+    authDomain: "lifepayment-40885.firebaseapp.com",
+    projectId: "lifepayment-40885",
+    storageBucket: "lifepayment-40885.appspot.com",
+    messagingSenderId: "318813611939",
+    appId: appId,
+    measurementId: "G-86673DZLDZ",
+    // databaseURL: "https://lifepayment-40885-default-rtdb.firebaseio.com"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// Initialize Realtime Database and get a reference to the service
+
+// const database = getDatabase(app);
+const database = getFirestore(app);
+
+
 
 function slugify(text) {
     // Slugify a text by
@@ -12,42 +47,69 @@ function slugify(text) {
     return text.toLowerCase().replaceAll(' ', '_')
 }
 
-function save({name, amount}) {
 
-    // Read all the data in localstorage
+/**
+ * Structure now in localstorage is
+ *      payId: {
+ *                  id: string,
+ *                  name: string,
+ *                  amount: number
+ *              }
+ * 
+ *    Then to save
+ *      id: {
+ *                  payId: string,
+ *                  name: string,
+ *                  amount: number
+ *              }
+ */
+
+
+async function save({name, amount}) {
+
+    const payId = slugify(name);
+    let remoteId; // track online id
+    let userData = {
+        name,
+        amount: Number(amount) || 0
+    };
+
+    // Load document from db
     let existingData = localStorage.getItem(strorageKey);
 
-    if (existingData !== null){
+    if (existingData !== null){ // if record is in storage
         // Data is expected to be string,
         //    convert the object string to object
         existingData = StringtoJSON(existingData);
-    } else {
-        // Otherwise
-        existingData = []
+
+        // identify the existing record for the name
+        let record = existingData[payId];
+
+        if (record?.id){
+            const { id, amount:previousAmount } = record;
+            remoteId = id;
+            userData.amount += Number(previousAmount) || 0
+        }
     }
 
-    const payId = slugify(name);
-    let newAmount = Number(amount);
+    // If there is a remoteId, update by record id
+    //   otherwise, push and create a new record
+    try {
+        if (remoteId) {
+            const docRef = doc(database, collectionName, remoteId);
 
-    // If user has paid before
-    if (existingData[payId]?.amount) {
-        // Add the new amount to the existing amount
-        newAmount += Number(existingData[payId].amount)
+            await setDoc(docRef, { ...userData, payId })
+        }else {
+            // const docRef = doc(database, collectionName);
+            const dbRef = collection(database, collectionName);
+            await addDoc(dbRef, { ...userData, payId })
+        }
+    } catch (e) {
+        console.error("Error adding document: ", e);
     }
-
-    // Save to localstorage
-    const newDbData = JSONtoString({
-        ...existingData,
-        [payId]: { ...existingData[payId], name, amount: newAmount}
-    });
-
-    localStorage.setItem(strorageKey, newDbData);
-
-    return Object.values(newDbData); // an array
-
 }
 
-function load(){
+function load() {
     let existingData = localStorage.getItem(strorageKey);
 
     if (existingData !== null) { // if there is an existing data
@@ -62,5 +124,4 @@ function load(){
 
 }
 
-
-export { save, load };
+export { save, load, database, collectionName, JSONtoString, strorageKey };
