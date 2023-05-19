@@ -1,14 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from "react-router-dom"
 import PaymentForm from './components/Forms';
 import Home from './components/Home';
 
-import { JSONtoString, collection, database, save as saveData, strorageKey} from './utils/store';
-import { onValue, ref } from 'firebase/database';
+import { JSONtoString, collectionName, database, save as saveData, strorageKey} from './utils/store';
+
 import './App.css';
+import { collection, onSnapshot, query } from 'firebase/firestore';
 
 
 function App() {
+
+
+  useEffect(() => {
+
+    const q = query(collection(database, collectionName));
+    
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+      if (querySnapshot.empty) {
+        // clear localstorage
+        localStorage.removeItem(strorageKey);
+      }
+
+      const entry = {};
+
+      querySnapshot.forEach((doc) => {
+        // cities.push(doc.data().name);
+        const { payId, ...rest } = doc.data();
+
+        entry[payId] = {
+          id: doc.id,
+          ...rest
+        }
+      });
+
+      localStorage.setItem(strorageKey, JSONtoString(entry));
+    });
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
 
   return (
     <div className="App">
@@ -22,21 +55,3 @@ function App() {
 
 export default App;
 
-
-const paymentRef = ref(database, collection);
-
-onValue(paymentRef, (snapshot) => {
-  const data = snapshot.val() || {};
-  const entry = {};
-
-  Object.entries(data).forEach(([remoteId, remoteData]) => {
-    const { payId, ...rest } = remoteData;
-
-    entry[payId] = {
-      id: remoteId,
-      ...rest
-    }
-  })
-
-  localStorage.setItem(strorageKey, JSONtoString(entry));
-});

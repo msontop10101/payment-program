@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, push } from "firebase/database";
+// import { getDatabase, ref, set, push } from "firebase/database";
+import { getFirestore, addDoc, doc, setDoc, collection} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,7 +15,7 @@ const strorageKey = 'xcxviDv::'
 const env = process.env;
 const apiKey = env.REACT_APP_API_KEY;
 const appId = env.REACT_APP_APP_ID;
-const collection = env.REACT_APP_COLLECTION_NAME;
+const collectionName = env.REACT_APP_COLLECTION_NAME;
 
 // Firebase config
 // Your web app's Firebase configuration
@@ -27,14 +28,17 @@ const firebaseConfig = {
     messagingSenderId: "318813611939",
     appId: appId,
     measurementId: "G-86673DZLDZ",
-    databaseURL: "https://lifepayment-40885-default-rtdb.firebaseio.com"
+    // databaseURL: "https://lifepayment-40885-default-rtdb.firebaseio.com"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
 
-const database = getDatabase(app);
+// const database = getDatabase(app);
+const database = getFirestore(app);
+
+
 
 function slugify(text) {
     // Slugify a text by
@@ -61,7 +65,7 @@ function slugify(text) {
  */
 
 
-function save({name, amount}) {
+async function save({name, amount}) {
 
     const payId = slugify(name);
     let remoteId; // track online id
@@ -90,12 +94,18 @@ function save({name, amount}) {
 
     // If there is a remoteId, update by record id
     //   otherwise, push and create a new record
-    if (remoteId) {
-        const dref = ref(database, `${collection}/${remoteId}`);
-        set(dref, { ...userData, payId });
-    } else {
-        const dref = ref(database, collection);
-        push(dref, { ...userData, payId });
+    try {
+        if (remoteId) {
+            const docRef = doc(database, collectionName, remoteId);
+
+            await setDoc(docRef, { ...userData, payId })
+        }else {
+            // const docRef = doc(database, collectionName);
+            const dbRef = collection(database, collectionName);
+            await addDoc(dbRef, { ...userData, payId })
+        }
+    } catch (e) {
+        console.error("Error adding document: ", e);
     }
 }
 
@@ -114,4 +124,4 @@ function load() {
 
 }
 
-export { save, load, database, collection, JSONtoString, strorageKey };
+export { save, load, database, collectionName, JSONtoString, strorageKey };

@@ -14,6 +14,7 @@ function Home() {
     useEffect(() => {
 
         window.addEventListener('storage', () => {
+            console.log("Listening...")
             setPayments(()=>loadData());
         })
 
@@ -22,6 +23,9 @@ function Home() {
       };
     }, [])
 
+    useEffect(()=>{
+        console.log("Updated!");
+    },[payments])
 
     // Sort by amount
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
