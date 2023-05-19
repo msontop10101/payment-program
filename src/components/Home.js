@@ -12,11 +12,16 @@ function Home() {
     const newPaymentIndex = null;
 
     useEffect(() => {
-
-        window.addEventListener('storage', () => {
+        
+        function listenToUpdate() {
             console.log("Listening...")
-            setPayments(()=>loadData());
-        })
+            
+            cosnt data = loadData();
+            console.log(data);
+            setPayments(()=> data);
+        }
+
+        window.addEventListener('storage', listenToUpdate)
 
       return () => {
           window.removeEventListener('storage', ()=>{console.log("Stoped!")});
