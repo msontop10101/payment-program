@@ -21,7 +21,10 @@ const PaymentForm = ({ onSubmit }) => {
                     onSubmit={(values, { resetForm }) => {
                         resetForm()
                         onSubmit(values)
-                        // setSubmittedData({name:'Eliljah', amount:'89000'})
+                        const existingData = localStorage.getItem('paymentData');
+                        const dataArray = existingData ? JSON.parse(existingData) : [];
+                        dataArray.push(values);
+                        localStorage.setItem('paymentData', JSON.stringify(dataArray));
                     }}
                 >
                     {({ isSubmitting }) => (
