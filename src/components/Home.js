@@ -13,18 +13,26 @@ function Home() {
 
     useEffect(() => {
         
-        function listenToUpdate() {
-            console.log("Listening...")
+        // function listenToUpdate() {
+        //     console.log("Listening...")
             
-            const data = loadData();
-            console.log(data);
-            setPayments(()=> data);
-        }
+        //     const data = loadData();
+        //     console.log(data);
+        //     setPayments(()=> data);
+        // }
 
-        window.addEventListener('storage', listenToUpdate, false)
+        // window.addEventListener('storage', listenToUpdate, false)
+
+        const intervalId = setInterval(()=>{
+            const data = loadData();
+            // console.log("Loaded:", data);
+
+            setPayments(()=>data);
+        }, 1500)
 
       return () => {
-          window.removeEventListener('storage', ()=>{console.log("Stoped!")}, false);
+        //   window.removeEventListener('storage', ()=>{console.log("Stoped!")}, false);
+        clearInterval(intervalId);
       };
     }, [])
 
