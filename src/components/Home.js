@@ -8,7 +8,7 @@ import { load as loadData } from '../utils/store';
 function Home() {
     // const [audio] = useState(new Audio(moneySound));
     // const [cheerAudio] = useState(new Audio(cheer))
-    const [payments, setPayments] = useState(()=>loadData());
+    const [payments, setPayments] = useState(() => loadData());
     const newPaymentIndex = null;
 
     useEffect(() => {
