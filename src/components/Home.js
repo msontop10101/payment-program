@@ -21,10 +21,10 @@ function Home() {
             setPayments(()=> data);
         }
 
-        window.addEventListener('storage', listenToUpdate)
+        window.addEventListener('storage', listenToUpdate, false)
 
       return () => {
-          window.removeEventListener('storage', ()=>{console.log("Stoped!")});
+          window.removeEventListener('storage', ()=>{console.log("Stoped!")}, false);
       };
     }, [])
 
