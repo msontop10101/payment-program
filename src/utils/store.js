@@ -16,12 +16,11 @@ const apiKey = env.REACT_APP_API_KEY;
 const appId = env.REACT_APP_APP_ID;
 const collection = env.REACT_APP_COLLECTION_NAME;
 
-// console.log({
-//     env,
-// apiKey,
-// appId,
-// collection
-// })
+console.log({
+apiKey,
+appId,
+collection
+})
 
 // Firebase config
 // Your web app's Firebase configuration
@@ -87,6 +86,7 @@ function save({name, amount}) {
 
         // identify the existing record for the name
         let record = existingData[payId];
+
         if (record?.id){
             const { id, amount:previousAmount } = record;
             remoteId = id;
@@ -113,8 +113,7 @@ function liveRecord(){
     const paymentRef = ref(database, collection);
 
     onValue(paymentRef, (snapshot) => {
-        const data = snapshot.val() || {};
-        // console.log(data);
+        const data = snapshot.val() || {};        
         const entry = {};
 
         Object.entries(data).forEach(([remoteId, remoteData])=>{
@@ -126,7 +125,6 @@ function liveRecord(){
             }
         })
 
-        console.log(entry);
         localStorage.setItem(strorageKey, JSONtoString(entry));
     });
 
