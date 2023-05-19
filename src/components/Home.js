@@ -1,14 +1,14 @@
 import '../App.css';
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import moneySound from '../sound/moneysound.mp3'
-// import cheer from '../sound/cheer.mp3'
+// import moneySound from '../sound/moneysound.mp3'
+import cheer from '../sound/cheer.mp3'
 import { load as loadData } from '../utils/store';
 
 
 function Home() {
     // const [audio] = useState(new Audio(moneySound));
-    const [play, {isPlaying, stop}] = useSound(moneySound, {playbackRate: 0.9});
+    const [play, { isPlaying, stop }] = useSound(cheer, {playbackRate: 0.9});
     // const [cheerAudio] = useState(new Audio(cheer))
     const [payments, setPayments] = useState(() => loadData());
     const newPaymentIndex = null;
