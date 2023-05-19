@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from "react-router-dom"
 import PaymentForm from './components/Forms';
-import Home from './components/Home';
+import Lists from './components/Lists';
 
 import { JSONtoString, collectionName, database, save as saveData, strorageKey} from './utils/store';
 
-import './App.css';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 
 
@@ -46,7 +45,7 @@ function App() {
   return (
     <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Lists />} />
         <Route path='/admin' element={<PaymentForm onSubmit={(data) => saveData(data)}/>} />
         </Routes>
     </div>
