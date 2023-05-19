@@ -65,9 +65,9 @@ function Home() {
                         <div id='list-container'>
                             {sortedByPayments.map((user, index) => (
 
-                                <div key={index} className={`flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
+                                <div key={index} className={`flex mx-3 mt-1 bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-80 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
                                     <div>{index + 1}</div>
-                                    <div className='w-[45%] text-center py-2 px-1'>{user.name}</div>
+                                    <div className='w-[50%] text-center py-2 px-1'>{user.name}</div>
                                     <div className='w-[45%] text-center py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.amount}</div>
                                 </div>
                             ))}
