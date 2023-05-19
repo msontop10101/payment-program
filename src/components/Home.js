@@ -1,27 +1,20 @@
 import '../App.css';
-import { useEffect, useState } from 'react';
-// import moneySound from '../sound/moneysound.mp3'
+import { useEffect, useRef, useState } from 'react';
+import useSound from 'use-sound';
+import moneySound from '../sound/moneysound.mp3'
 // import cheer from '../sound/cheer.mp3'
 import { load as loadData } from '../utils/store';
 
 
 function Home() {
     // const [audio] = useState(new Audio(moneySound));
+    const [play, {isPlaying, stop}] = useSound(moneySound, {playbackRate: 0.9});
     // const [cheerAudio] = useState(new Audio(cheer))
     const [payments, setPayments] = useState(() => loadData());
     const newPaymentIndex = null;
+    const previousTotal = useRef(null);
 
     useEffect(() => {
-        
-        // function listenToUpdate() {
-        //     console.log("Listening...")
-            
-        //     const data = loadData();
-        //     console.log(data);
-        //     setPayments(()=> data);
-        // }
-
-        // window.addEventListener('storage', listenToUpdate, false)
 
         const intervalId = setInterval(()=>{
             const data = loadData();
@@ -31,7 +24,6 @@ function Home() {
         }, 1500)
 
       return () => {
-        //   window.removeEventListener('storage', ()=>{console.log("Stoped!")}, false);
         clearInterval(intervalId);
       };
     }, [])
@@ -44,6 +36,21 @@ function Home() {
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
     // Calculate total
     const totalPayments = payments.reduce((accumulator, payment) => accumulator + Number(payment.amount), 0);
+
+    if (previousTotal.current === null){
+        previousTotal.current = totalPayments;
+    }
+    else if ((previousTotal.current !== null) && (previousTotal.current !== totalPayments)){
+        // console.log("Total changed!")
+
+        if (isPlaying){
+            stop();
+        }
+
+        play()
+        previousTotal.current = totalPayments;
+    }
+
 
     return (
         <div className="App">
