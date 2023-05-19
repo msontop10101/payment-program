@@ -14,6 +14,7 @@ const strorageKey = 'xcxviDv::'
 const env = process.env;
 const apiKey = env.REACT_APP_API_KEY;
 const appId = env.REACT_APP_APP_ID;
+const collection = env.REACT_APP_COLLECTION_NAME;
 
 // Firebase config
 // Your web app's Firebase configuration
@@ -32,8 +33,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
+
 const database = getDatabase(app);
-const collection = 'payments'
 
 function slugify(text) {
     // Slugify a text by
@@ -105,7 +106,7 @@ function liveRecord(){
     const paymentRef = ref(database, 'payments');
 
     onValue(paymentRef, (snapshot) => {
-        const data = snapshot.val();
+        const data = snapshot.val() || {};
         // console.log(data);
         const entry = {};
 
