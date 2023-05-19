@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import { getDatabase, ref, set, push } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -105,33 +105,6 @@ function save({name, amount}) {
     }
 }
 
-function liveRecord(){
-    
-    // Whenever there is a change
-    //    save change straight to localstorage
-
-    const paymentRef = ref(database, collection);
-
-    onValue(paymentRef, (snapshot) => {
-        const data = snapshot.val() || {};        
-        const entry = {};
-
-        Object.entries(data).forEach(([remoteId, remoteData])=>{
-            const {payId, ...rest} = remoteData;
-
-            entry[payId] = {
-                id: remoteId,
-                ...rest
-            }
-        })
-
-        localStorage.setItem(strorageKey, JSONtoString(entry));
-    });
-
-    return []
-
-}
-
 function load() {
     let existingData = localStorage.getItem(strorageKey);
 
@@ -147,6 +120,4 @@ function load() {
 
 }
 
-export default liveRecord;
-
-export { save, load };
+export { save, load, database, collection, JSONtoString, strorageKey };
