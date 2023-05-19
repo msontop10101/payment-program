@@ -16,7 +16,7 @@ function Home() {
         function listenToUpdate() {
             console.log("Listening...")
             
-            cosnt data = loadData();
+            const data = loadData();
             console.log(data);
             setPayments(()=> data);
         }
