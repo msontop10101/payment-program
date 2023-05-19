@@ -119,7 +119,7 @@ function liveRecord(){
             }
         })
 
-        // console.log(entry);
+        console.log(entry);
         localStorage.setItem(strorageKey, JSONtoString(entry));
     });
 
