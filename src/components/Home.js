@@ -56,9 +56,8 @@ function Home() {
         <div className="App">
             <div className='flex justify-center'>
 
-                <div className='my-2 w-[90%] background-image' style={{ fontFamily: 'Poppins' }}>
-                    <div className='md:w-[70%] mx-auto'>
-                        <h2 className='font-normal'>Visualización de la base de datos de pagos</h2>
+                <div className='my-2 w-[100%] background-image' style={{ fontFamily: 'Poppins' }}>
+                    <div className='md:w-[95%] mx-auto'>
                         <div className='flex mx-3 mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
                             <div className='w-[45%] text-center'><h2>Nombre</h2></div>
                             <div className='w-[45%] text-center'><h2>VENTAS</h2></div>
