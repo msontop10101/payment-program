@@ -16,6 +16,13 @@ const apiKey = env.REACT_APP_API_KEY;
 const appId = env.REACT_APP_APP_ID;
 const collection = env.REACT_APP_COLLECTION_NAME;
 
+// console.log({
+//     env,
+// apiKey,
+// appId,
+// collection
+// })
+
 // Firebase config
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -103,7 +110,7 @@ function liveRecord(){
     // Whenever there is a change
     //    save change straight to localstorage
 
-    const paymentRef = ref(database, 'payments');
+    const paymentRef = ref(database, collection);
 
     onValue(paymentRef, (snapshot) => {
         const data = snapshot.val() || {};
