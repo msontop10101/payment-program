@@ -21,7 +21,7 @@ code {
 }
 
 .background-image {
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 2vh;
   padding-inline: 2rem;
 }
