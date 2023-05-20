@@ -6,6 +6,15 @@ import cheer from '../sound/cheer.mp3'
 import { load as loadData } from '../utils/store';
 
 
+const parseAmount = (amount) => {
+    // Receives a number and return a string in monetary form
+
+    return new Intl.NumberFormat("en-US", {
+        style: "decimal",
+    }).format(amount);
+}
+
+
 function Home() {
     // const [audio] = useState(new Audio(moneySound));
     const [play, { isPlaying, stop }] = useSound(cheer, {playbackRate: 0.9});
@@ -77,8 +86,8 @@ function Home() {
                             key={index} 
                             className={`flex bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
                             <div>{index + 1}</div>
-                            <div className='w-[45%] text-center py-2 px-1'>{user.name}</div>
-                            <div className='w-[45%] text-center py-2 px-1'><span className='text-[green] text-2xl'>$</span> {user.amount}</div>
+                            <div className='w-[45%] text-center py-2 px-1 text-capitalize'>{user.name}</div>
+                            <div className='w-[45%] text-center py-2 px-1'><span className='text-[green] text-2xl'>$</span> {parseAmount(user.amount)}</div>
                         </div>
                     ))}
                     
@@ -87,7 +96,7 @@ function Home() {
 
                 <div className='flex cust-footer mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
                     <div className='w-[45%] text-center'><h2>TOTAL</h2></div>
-                    <div className='w-[45%] text-center'><h2><span className='text-[green] text-2xl'>$</span> {totalPayments}</h2></div>
+                    <div className='w-[45%] text-center'><h2><span className='text-[green] text-2xl'>$</span> {parseAmount(totalPayments)}</h2></div>
                 </div>
 
             </div>

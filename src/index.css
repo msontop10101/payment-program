@@ -16,6 +16,10 @@ code {
     monospace;
 }
 
+.text-capitalize {
+  text-transform: capitalize;
+}
+
 .background-image {
   height: 100vh;
   padding-top: 2vh;
