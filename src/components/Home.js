@@ -49,9 +49,8 @@ function Home() {
     if (previousTotal.current === null){
         previousTotal.current = totalPayments;
     }
-    else if ((previousTotal.current !== null) && (previousTotal.current !== totalPayments)){
+    else if ((previousTotal.current !== null) && (previousTotal.current < totalPayments)){
         // console.log("Total changed!")
-
         if (isPlaying){
             stop();
         }

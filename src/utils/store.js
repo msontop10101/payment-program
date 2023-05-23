@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // import { getDatabase, ref, set, push } from "firebase/database";
-import { getFirestore, addDoc, doc, setDoc, collection} from "firebase/firestore";
+import { getFirestore, addDoc, doc, setDoc, collection, deleteDoc} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -65,6 +65,40 @@ function slugify(text) {
  */
 
 
+async function deleteData(name) {
+
+    const payId = slugify(name);
+    let remoteId; // track online id
+
+    // Load document from db
+    let existingData = localStorage.getItem(strorageKey);
+
+    if (existingData === null) return; // if there is nothing in localstorage.
+
+    // if record is in storage
+    // Data is expected to be string,
+    //    convert the object string to object
+    existingData = StringtoJSON(existingData);
+
+    // identify the existing record for the name
+    let record = existingData[payId];
+
+    if (!Boolean(record?.id)) return; // if there is no remote record id, return.
+
+    // Get remote Id from record
+    const { id } = record;
+    remoteId = id;
+
+    // If there is a remoteId, update by record id
+    //   otherwise, push and create a new record
+    try {
+        const docRef = doc(database, collectionName, remoteId);
+        await deleteDoc(docRef);
+    } catch (e) {
+        console.error("Error deleting document: ", e);
+    }
+}
+
 async function save({name, amount}) {
 
     const payId = slugify(name);
@@ -124,4 +158,4 @@ function load() {
 
 }
 
-export { save, load, database, collectionName, JSONtoString, strorageKey };
+export { save, load, deleteData, database, collectionName, JSONtoString, strorageKey };
