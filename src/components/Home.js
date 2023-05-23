@@ -83,7 +83,7 @@ function Home() {
 
                         <div 
                             key={index} 
-                            className={`flex bg-slate-50 opacity-75 even:bg-slate-300 even:opacity-100 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
+                            className={`flex bg-slate-50 opacity-75 italic px-3 text-2xl justify-between border rounded items-center ${newPaymentIndex === index ? 'my-payment' : ''}`}>
                             <div>{index + 1}</div>
                             <div className='w-[45%] text-center py-2 px-1 text-capitalize'>{user.name}</div>
                             <div className='w-[45%] text-center py-2 px-1'><span className='text-[green] text-2xl'>$</span> {parseAmount(user.amount)}</div>

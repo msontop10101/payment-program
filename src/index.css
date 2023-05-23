@@ -42,7 +42,7 @@ code {
 
 
 
-@media (min-width: 1000px) {
+@media (width >= 1000px) {
     .cust-dis {
       display: grid;
       grid-template-columns: 1fr 1fr;
