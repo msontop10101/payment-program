@@ -1,5 +1,5 @@
 import '../App.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import useSound from 'use-sound';
 // import moneySound from '../sound/moneysound.mp3'
 import cheer from '../sound/cheer.mp3'
@@ -41,9 +41,14 @@ function Home() {
     },[payments])
 
     // Sort by amount
-    const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
+    const sortedByPayments = useMemo(()=>{
+        return [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
+    },[payments]);
+    
     // Calculate total
-    const totalPayments = payments.reduce((accumulator, payment) => accumulator + Number(payment.amount), 0);
+    const totalPayments = useMemo(()=>{
+        return payments.reduce((accumulator, payment) => accumulator + Number(payment.amount), 0);
+    },[payments]);
     
     try{
         
@@ -55,7 +60,6 @@ function Home() {
             if (isPlaying){
                 stop();
             }
-
             play()
         }
     } catch(error) {
