@@ -66,31 +66,31 @@ function Home() {
                 {/* <h2 className='font-normal'>Visualización de la base de datos de pagos</h2> */}
 
                 <div className='cust-header gap-4'>
-                    <div className='flex mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
+                    <div className='flex mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-2'>
                         <div className='w-[45%] text-center'><h2>Nombre</h2></div>
                         <div className='w-[45%] text-center'><h2>VENTAS</h2></div>
                     </div>
 
-                    <div className='flex mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
+                    <div className='flex mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-2'>
                         <div className='w-[45%] text-center'><h2>Nombre</h2></div>
                         <div className='w-[45%] text-center'><h2>VENTAS</h2></div>
                     </div>
                 </div>
 
-                <div id='list-container'  className='my-2 w-[100%] cust-dis'>
+                <div id='list-container'  className='my-1 w-[100%] cust-dis'>
                     {sortedByPayments.map((user, index) => (
 
                         <div 
                             key={index} 
-                            className={`flex bg-slate-50 opacity-75 italic px-3 py-2 text-2xl justify-between border rounded items-center`}>
+                            className={`flex bg-slate-50 opacity-75 italic px-3 py-1 justify-between border rounded items-center`}>
                             <div>{index + 1}</div>
                             <div className='w-[45%] text-center text-capitalize'>{user.name}</div>
-                            <div className='w-[45%] text-center'><span className='text-[green] text-2xl'>$</span> {parseAmount(user.amount)}</div>
+                            <div className='w-[45%] text-center'><span className='text-[green]'>$</span> {parseAmount(user.amount)}</div>
                         </div>
                     ))}
                 </div>
 
-                <div className='flex cust-footer mt-4 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-4'>
+                <div className='flex cust-footer mt-2 justify-between font-semibold text-2xl px-3 bg-slate-300 border rounded py-2'>
                     <div className='w-[45%] text-center'><h2>TOTAL</h2></div>
                     <div className='w-[45%] text-center'><h2><span className='text-[green] text-2xl'>$</span> {parseAmount(totalPayments)}</h2></div>
                 </div>
