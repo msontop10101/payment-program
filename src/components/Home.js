@@ -44,20 +44,26 @@ function Home() {
     const sortedByPayments = [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
     // Calculate total
     const totalPayments = payments.reduce((accumulator, payment) => accumulator + Number(payment.amount), 0);
-
-    if (previousTotal.current === null){
-        previousTotal.current = totalPayments;
-    }
-    else if ((previousTotal.current !== null) && (previousTotal.current < totalPayments)){
-        // console.log("Total changed!")
-        if (isPlaying){
-            stop();
+    
+    try{
+        
+        if (previousTotal.current === null){
+            previousTotal.current = totalPayments;
         }
+        else if ((previousTotal.current !== null) && (previousTotal.current < totalPayments)){
+            // console.log("Total changed!")
+            if (isPlaying){
+                stop();
+            }
 
-        play()
+            play()
+        }
+    } catch(error) {
+        console.log("Could not check payment update");
+    }
+    finally {
         previousTotal.current = totalPayments;
     }
-
 
     return (
         <div className="App background-image">
