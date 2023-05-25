@@ -88,7 +88,7 @@ function Home() {
                 </div>
 
                 <div id='list-container'  className='my-1 w-[100%] cust-dis'>
-                    {sortedByPayments.map((user, index) => (
+                    {payments.map((user, index) => (
 
                         <div 
                             key={index} 
