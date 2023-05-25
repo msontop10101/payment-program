@@ -27,6 +27,7 @@ function Home() {
         const intervalId = setInterval(()=>{
             const data = loadData();
             // console.log("Loaded:", data);
+            data.sort((a, b) => Number(b.amount) - Number(a.amount));
 
             setPayments(()=>data);
         }, 1500)
