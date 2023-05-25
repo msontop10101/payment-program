@@ -153,7 +153,8 @@ function load() {
     } else {
         existingData = []
     }
-
+    
+    existingData.sort((a, b) => Number(b.amount) - Number(a.amount));
     return existingData;
 
 }

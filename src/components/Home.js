@@ -27,8 +27,6 @@ function Home() {
         const intervalId = setInterval(()=>{
             const data = loadData();
             // console.log("Loaded:", data);
-            data.sort((a, b) => Number(b.amount) - Number(a.amount));
-
             setPayments(()=>data);
         }, 1500)
 
@@ -40,11 +38,6 @@ function Home() {
     useEffect(()=>{
         console.log("Updated!");
     },[payments])
-
-    // Sort by amount
-    const sortedByPayments = useMemo(()=>{
-        return [...payments].sort((a, b) => Number(b.amount) - Number(a.amount));
-    },[payments]);
     
     // Calculate total
     const totalPayments = useMemo(()=>{
