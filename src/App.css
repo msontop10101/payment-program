@@ -38,10 +38,6 @@
 }
 .background-image {
   background-image: url('./images/Trialbg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 100%;
 }
 .new-payment {
   background-color: yellow !important;
